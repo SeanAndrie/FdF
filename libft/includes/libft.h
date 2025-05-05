@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:03:33 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/04/03 21:47:04 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/03 01:21:47 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@
 # include <unistd.h>
 # include <limits.h>
 
-char				*get_next_line(int fd);
+long				ft_strtol(const char *str, char **endptr, int base);
 
 int					ft_printf(const char *str, ...);
-
 int					ft_atoi(const char *nptr);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
@@ -30,6 +29,7 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
+int					ft_isspace(int c);
 
 size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
@@ -49,6 +49,7 @@ void				ft_putnbr_fd(int n, int fd);
 
 void				ft_bzero(void *s, size_t n);
 
+char				*get_next_line(int fd);
 char				*ft_itoa(int n);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
