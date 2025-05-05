@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 21:12:29 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/03/31 16:04:34 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:41:21 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*my_strchr(const char *s, int c)
 {
 	while (*s)
 	{
@@ -102,7 +102,7 @@ void	update_remainder(t_list **head)
 		free(*head);
 		*head = next;
 	}
-	remain = ft_strchr((*head)->buffer, '\n');
+	remain = my_strchr((*head)->buffer, '\n');
 	if (remain)
 	{
 		remain = my_strdup(remain + 1, &len);
