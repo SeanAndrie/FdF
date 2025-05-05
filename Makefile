@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+         #
+#    By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/29 16:02:32 by sgadinga          #+#    #+#              #
-#    Updated: 2025/04/30 16:40:15 by sgadinga         ###   ########.fr        #
+#    Updated: 2025/05/05 18:31:14 by sgadinga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SANITIZE_FLAGS = -fsanitize=address
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRCS = $(addprefix $(SRC_DIR)/, fdf.c colors.c)
+SRCS = $(addprefix $(SRC_DIR)/, fdf.c colors.c map.c map_utils.c)
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -40,12 +40,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@make -C libft clean
+	@make -C libft fclean
 	@make -C minilibx-linux clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C libft clean
 
 re: fclean all
 
