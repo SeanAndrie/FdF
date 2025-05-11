@@ -6,23 +6,20 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:03:17 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/10 03:20:23 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:55:57 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void    apply_ortho_variations(int keycode, t_mlx_data *mlx)
-{
-    mlx->config.rotations = (t_point3D){0, 0, 0, 0xFF};
-    mlx->config.z_scale = 0;
-    if (keycode == XK_2)
-        mlx->config.rotations.x = 90.0f;
+void apply_ortho_variations(int keycode, t_mlx_data *mlx)
+{   
+    if (keycode == XK_1)
+        mlx->config.rotations = (t_point3D){0, 0, 0, 0xFF};
+    else if (keycode == XK_2)
+        mlx->config.rotations = (t_point3D){90.0f, 0, 0, 0xFF};
     else if (keycode == XK_3)
-    {
-        mlx->config.rotations.x = 90.0f;
-        mlx->config.rotations.z = -90.f;
-    }
+        mlx->config.rotations = (t_point3D){90.0f, 0, -90.0f, 0xFF};
     redraw(mlx);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:03:09 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/10 03:20:45 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 02:00:49 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-
-# define PANEL_WIDTH WIDTH / 4
 
 # define MAX_ZOOM 100.0f
 # define MIN_ZOOM 0.8f

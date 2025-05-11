@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 01:38:59 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/12 00:36:06 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:43:01 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	key_translate(int keycode, t_mlx_data *mlx)
 
 void	switch_projection(int keycode, t_mlx_data *mlx)
 {
+	mlx->config.rotations = (t_point3D){0, 0, 0, 0xFF};
 	if (keycode == XK_i)
 		mlx->config.projection = PROJ_ISOMETRIC;
 	else if (keycode == XK_o)

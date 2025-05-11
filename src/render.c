@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 01:11:42 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/12 00:33:05 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 02:01:00 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_point2D project_point(t_point3D point, t_config config)
     else
     {
         proj.x = (int)roundf(trans.x + config.offset.x);
-        proj.y = (int)roundf(trans.y - trans.z + config.offset.y);
+        proj.y = (int)roundf(trans.y + config.offset.y);
     }
     proj.color = point.color;
     return proj;
