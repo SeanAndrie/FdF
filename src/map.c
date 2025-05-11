@@ -6,56 +6,41 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:14:20 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/05 14:56:22 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:03:24 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	has_valid_extension(const char *filename, char *extension)
+static int	has_valid_extension(const char *filename, const char *extension)
 {
-	char	**tokens;
-	int		size;
+	const char	*dot;
 
-	if (!filename)
+	if (!filename || !extension)
 		return (0);
-	tokens = ft_split(filename, '.');
-	if (!tokens)
+	dot = ft_strrchr(filename, '.');
+	if (!dot || dot == filename)
 		return (0);
-	size = 0;
-	while (tokens[size])
-		size++;
-	if (size > 2)
-		return (error("Map Initialization", "Invalid file extension."),
-			free_tokens(tokens), 0);
-	if (ft_strncmp(extension, tokens[1], 3) != 0)
-		return (error("Map Initialization", "Invalid file extension."),
-			free_tokens(tokens), 0);
-	free_tokens(tokens);
-	return (1);
+	return (ft_strncmp(dot + 1, extension, ft_strlen(dot + 1)) == 0);
 }
 
-int	parse_dimensions(int fd, t_map *map)
+static int	parse_dimensions(int fd, t_map *map)
 {
 	int		i;
-	char	*line;
+	char	*trimmed;
 	char	**x_tokens;
 
 	while (1)
 	{
-		line = get_next_line(fd);
-		if (!line)
+		if (get_next_trimmed(&trimmed, fd, " \t\n") != 0)
 			break ;
-		x_tokens = ft_split(line, ' ');
-		free(line);
+		x_tokens = ft_split(trimmed, ' ');
+		free(trimmed);
 		if (!x_tokens)
 			return (close(fd), 0);
 		i = 0;
 		while (x_tokens[i])
-		{
 			i++;
-			ft_printf("%s\n", x_tokens[i]);			
-		}
 		free_tokens(x_tokens);
 		if (map->x_dim == 0)
 			map->x_dim = i;
@@ -67,27 +52,22 @@ int	parse_dimensions(int fd, t_map *map)
 	return (1);
 }
 
-t_point3D	*process_x_tokens(char **tokens, int x_dim, int y)
+static t_point3D	*process_x_tokens(char **tokens, int x_dim, int y)
 {
 	int			x;
-	int			size;
 	t_point3D	*x_points;
 	char		**token_x;
 
-	x_points = ft_calloc(x_dim, sizeof(t_point3D *));
+	x_points = ft_calloc(x_dim, sizeof(t_point3D));
 	if (!x_points)
 		return (NULL);
 	x = -1;
-	while (tokens[++x])
+	while (tokens[++x] && x < x_dim)
 	{
 		token_x = ft_split(tokens[x], ',');
 		if (!token_x)
-			return (NULL);
-		size = 0;
-		while (token_x[size])
-			size++;
-		ft_printf("Size: %d\n", size);
-		if (size == 2 && is_hex_color(token_x[1]))
+			return (free(x_points), NULL);
+		if (token_x[1] && is_hex_color(token_x[1]))
 			x_points[x] = (t_point3D){(float)x, (float)y, ft_atoi(token_x[0]),
 				ft_strtol(token_x[1], NULL, 16)};
 		else
@@ -98,7 +78,7 @@ t_point3D	*process_x_tokens(char **tokens, int x_dim, int y)
 	return (x_points);
 }
 
-int	allocate_grid(int fd, t_map *map)
+static int	allocate_grid(int fd, t_map *map)
 {
 	int		y;
 	char	*line;
@@ -131,28 +111,21 @@ t_map	*create_map(const char *filename)
 	t_map	*map;
 
 	if (!has_valid_extension(filename, "fdf"))
-		return (NULL);
+		return (error("Map Initialization", "File is missing or inaccessible.",
+				NULL), NULL);
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-	{
-		free(map);
-		return (error("Map Initialization", "Failed to open file."), NULL);
-	}
+		return (free(map), error("Map Initialization", "Failed to open file.",
+				NULL), NULL);
 	if (!parse_dimensions(fd, map))
-	{
-		close(fd);
-		free(map);
-		return (error("Map Initialization", "Invalid dimensions."), NULL);
-	}
+		return (close(fd), free(map), error("Map Initialization",
+				"Invalid dimensions.", NULL), NULL);
 	if (!allocate_grid(fd, map))
-	{
-		close(fd);
-		free(map);
-		return (error("Map Initialization", "Failed to allocate grid."), NULL);
-	}
+		return (close(fd), free(map), error("Map Initialization",
+				"Failed to allocate grid.", NULL), NULL);
 	close(fd);
 	return (map);
 }

@@ -6,78 +6,83 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:02:21 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/05 14:46:28 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/11 05:48:11 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-void	error(char *type, char *message)
+void	error(char *type, char *message, char *code)
 {
 	ft_putstr_fd("FdF: ", 2);
 	ft_putstr_fd(type, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(message, 2);
-	exit(1);
+	if (code)
+		exit(ft_atoi(code));
 }
 
-void	print_grid(t_map *map)
+int		close_fdf(t_mlx_data *mlx)
 {
-	int	y;
-	int	x;
-
-	y = 0;
-	x = 0;
-	ft_printf("Shape: (%d, %d)\n", map->x_dim, map->y_dim);
-	ft_printf("{\n");
-	while (y < map->y_dim)
+	if (mlx->connection)
 	{
-		ft_printf("\t[ ");
-		x = 0;
-		while (x < map->x_dim)
-		{
-			ft_printf("%3d ", map->grid[y][x]);
-			x++;
-		}
-		ft_printf(" ]\n");
-		y++;
-	};
-	ft_printf("}\n");
+		if (mlx->window)
+			mlx_destroy_window(mlx->connection, mlx->window);
+		if (mlx->map_image.image)
+			mlx_destroy_image(mlx->connection, mlx->map_image.image);
+		mlx_destroy_display(mlx->connection);
+		free(mlx->connection);
+	}
+	if (mlx->map)
+	{
+		cleanup_grid(mlx->map->grid, mlx->map->y_dim);
+		free(mlx->map);
+	}
+	exit(EXIT_SUCCESS);
+	return (0);
 }
 
-void	print_point_params(t_map *map, int y, int x)
+t_config	init_config(void)
 {
-	printf("\nPoint Params:\n");
-	printf("x: %f\n", map->grid[y][x].x);
-	printf("y: %f\n", map->grid[y][x].y);
-	printf("z: %i\n", map->grid[y][x].z);
-	printf("color (raw): %d\n", map->grid[y][x].color);
-	printf("trgb: ");
-	printf("(%d, %d, %d, %d)\n\n", 
-		get_color_param(map->grid[y][x].color, T),
-		get_color_param(map->grid[y][x].color, R),
-		get_color_param(map->grid[y][x].color, G),
-		get_color_param(map->grid[y][x].color, B)
-	);
+	t_config	def;
+
+	def.scale = 8.0f;
+	def.z_scale = 2.0f;
+	def.is_panning = 0;
+	def.is_rotating = 0;
+	def.pan_speed = 8.0;
+	def.projection = PROJ_ISOMETRIC;
+	def.offset = (t_point2D){.x = 0, .y = 0};
+	def.pan_start = (t_point2D){.x = 0, .y = 0};
+	def.rotations = (t_point3D){.x = 0, .y = 0, .z = 0};
+	return (def);
+}
+
+void	setup_hooks(t_mlx_data *mlx)
+{
+	mlx_hook(mlx->window, KeyPress, KeyPressMask, handle_key_press, mlx);
+	mlx_hook(mlx->window, KeyRelease, KeyReleaseMask, handle_key_release, mlx);
+	mlx_hook(mlx->window, ButtonPress, ButtonPressMask, handle_mouse_press, mlx);
+	mlx_hook(mlx->window, ButtonRelease, ButtonReleaseMask, handle_mouse_release, mlx);
+	mlx_hook(mlx->window, MotionNotify, PointerMotionMask, handle_mouse_move, mlx);	
+	mlx_hook(mlx->window, DestroyNotify, 0, close_fdf, mlx);
 }
 
 int	main(int ac, char **av)
 {
-	t_map	*map;
+	t_mlx_data	mlx;
 
-	if (ac < 2)
-	{
-		error("Usage", "./fdf <filename>.fdf  or  path/to/<filename>.fdf");
-		return (1);
-	}
-	map = create_map(av[1]);
-
-	ft_printf("Map Dimensions: (%d, %d)\n", map->x_dim, map->y_dim);
-
-	print_point_params(map, 2, 3);
-
-	cleanup_grid(map->grid, map->y_dim);
-	free(map);
+	if (ac < 2 || !ft_strchr(av[1], '.'))
+		error("Usage", "./fdf <filename>.fdf  or  path/to/<filename>.fdf", "1");
+	mlx.config = init_config();
+	if (!render_mlx(&mlx, av[1]))
+		error("MLX", "Failed to initialize MLX.", "1");
+	setup_hooks(&mlx);
+	mlx_put_image_to_window(mlx.connection, mlx.window, mlx.map_image.image, 0,
+		0);
+	mlx_do_key_autorepeaton(mlx.connection);
+	mlx_loop(mlx.connection);
+	close_fdf(&mlx);
 	return (0);
 }
