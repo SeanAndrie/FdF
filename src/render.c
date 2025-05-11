@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 01:11:42 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/11 06:01:15 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 00:33:05 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ t_point2D project_point(t_point3D point, t_config config)
     t_point3D  	trans;
 
 	trans = point;
-    rotate_point(&trans, config.rotations);
-    trans.x *= config.scale;
+	trans.x *= config.scale;
     trans.y *= config.scale;
 	trans.z *= config.z_scale; 
+    rotate_point(&trans, config.rotations);
     if (config.projection == PROJ_ISOMETRIC)
     {
         proj.x = (int)roundf((trans.x - trans.y) * COS_30 + config.offset.x);
