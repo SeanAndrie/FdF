@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:14:20 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/08 20:03:24 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:11:24 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,24 @@ static int	parse_dimensions(int fd, t_map *map)
 
 static t_point3D	*process_x_tokens(char **tokens, int x_dim, int y)
 {
-	int			x;
+	int			z;
+	t_point2D	coord;
 	t_point3D	*x_points;
 	char		**token_x;
 
 	x_points = ft_calloc(x_dim, sizeof(t_point3D));
 	if (!x_points)
 		return (NULL);
-	x = -1;
-	while (tokens[++x] && x < x_dim)
+	coord = (t_point2D){-1, y, 0xFF};
+	while (tokens[++coord.x] && coord.x < x_dim)
 	{
-		token_x = ft_split(tokens[x], ',');
+		token_x = ft_split(tokens[coord.x], ',');
 		if (!token_x)
-			return (free(x_points), NULL);
-		if (token_x[1] && is_hex_color(token_x[1]))
-			x_points[x] = (t_point3D){(float)x, (float)y, ft_atoi(token_x[0]),
-				ft_strtol(token_x[1], NULL, 16)};
-		else
-			x_points[x] = (t_point3D){(float)x, (float)y, ft_atoi(token_x[0]),
-				0xFFFFFF};
-		free_tokens(token_x);
+			return (free_tokens(token_x), free(x_points), NULL);
+		z = ft_atoi(token_x[0]);
+		if (z >= INT_MAX || z <= INT_MIN)
+			return (free_tokens(token_x), free(x_points), NULL);
+		parse_z_coordinate(&coord, token_x, &x_points, z);
 	}
 	return (x_points);
 }

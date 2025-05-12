@@ -12,23 +12,23 @@
 
 #include "fdf.h"
 
-void rotate_map(int keycode, t_mlx_data *mlx)
+void	rotate_map(int keycode, t_mlx_data *mlx)
 {
-    float rotation_step;
-    
-    rotation_step = 1.0f;
-    if (keycode == XK_Left)
-        mlx->config.rotations.y -= rotation_step;
-    else if (keycode == XK_Right)
-        mlx->config.rotations.y += rotation_step;
-    else if (keycode == XK_Up)
-        mlx->config.rotations.x += rotation_step;
-    else if (keycode == XK_Down)
-        mlx->config.rotations.z -= rotation_step;
-    mlx->config.rotations.x = fmodf(mlx->config.rotations.x, 360.0f);
-    mlx->config.rotations.y = fmodf(mlx->config.rotations.y, 360.0f);
-    mlx->config.rotations.z = fmodf(mlx->config.rotations.z, 360.0f);
-    redraw(mlx);
+	float	rotation_step;
+
+	rotation_step = 1.0f;
+	if (keycode == XK_Left)
+		mlx->config.rotations.y -= rotation_step;
+	else if (keycode == XK_Right)
+		mlx->config.rotations.y += rotation_step;
+	else if (keycode == XK_Up)
+		mlx->config.rotations.x += rotation_step;
+	else if (keycode == XK_Down)
+		mlx->config.rotations.z -= rotation_step;
+	mlx->config.rotations.x = fmodf(mlx->config.rotations.x, 360.0f);
+	mlx->config.rotations.y = fmodf(mlx->config.rotations.y, 360.0f);
+	mlx->config.rotations.z = fmodf(mlx->config.rotations.z, 360.0f);
+	redraw(mlx);
 }
 
 void	key_translate(int keycode, t_mlx_data *mlx)
@@ -51,10 +51,10 @@ void	switch_projection(int keycode, t_mlx_data *mlx)
 		mlx->config.projection = PROJ_ISOMETRIC;
 	else if (keycode == XK_o)
 		mlx->config.projection = PROJ_ORTHOGRAPHIC;
-    else
-    {
-        mlx->config.projection = PROJ_CAVALIER;
-    }
+	else
+	{
+		mlx->config.projection = PROJ_CAVALIER;
+	}
 	redraw(mlx);
 }
 

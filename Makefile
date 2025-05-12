@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+         #
+#    By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/29 16:02:32 by sgadinga          #+#    #+#              #
-#    Updated: 2025/05/11 05:55:43 by sgadinga         ###   ########.fr        #
+#    Updated: 2025/05/12 18:33:40 by sgadinga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC_DIR = src
 UTILS_DIR = utils
 OBJ_DIR = obj
 
-UTILS = $(addprefix $(UTILS_DIR)/, draw_utils.c map_utils.c hooks_utils.c)
+UTILS = $(addprefix $(UTILS_DIR)/, draw_utils.c map_utils.c hooks_utils.c render_utils.c)
 SRCS = $(addprefix $(SRC_DIR)/, fdf.c colors.c draw.c \
 		 map.c render.c hooks.c rotations.c $(UTILS))
 

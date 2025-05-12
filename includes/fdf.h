@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:03:09 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/12 02:00:49 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:04:42 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,6 @@ typedef enum e_mouse_event
 	MOUSE_SCROLLUP = 4,
 	MOUSE_SCROLLDOWN = 5
 }						t_mouse_event;
-
-typedef struct s_rotation_cache{
-    float cos_x, sin_x;
-    float cos_y, sin_y;
-    float cos_z, sin_z;
-} 						t_rotation_cache;
 
 typedef struct s_rgb
 {
@@ -227,6 +221,10 @@ t_point2D				project_point(t_point3D point, t_config config);
 int						render_mlx(t_mlx_data *mlx, const char *filename);
 t_bounds				get_map_bounds(t_map *map, t_config config);
 
+// Rendering Utilities
+void					reset_config(t_mlx_data *mlx);
+void					scale_and_rotate(t_point3D *point, t_config config);
+
 // Map Parser
 t_map					*create_map(const char *filename);
 
@@ -235,6 +233,7 @@ void					free_tokens(char **tokens);
 int						is_hex_color(const char *token);
 void					cleanup_grid(t_point3D **grid, int n_alloc);
 int						get_next_trimmed(char **trimmed, int fd, char *charset);
+void					parse_z_coordinate(t_point2D *coord, char **token_x, t_point3D **x_points, int z);
 
 // Rotations
 void    				rotate_point(t_point3D *point, t_point3D angles);

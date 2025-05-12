@@ -23,7 +23,7 @@ void	error(char *type, char *message, char *code)
 		exit(ft_atoi(code));
 }
 
-int		close_fdf(t_mlx_data *mlx)
+int	close_fdf(t_mlx_data *mlx)
 {
 	if (mlx->connection)
 	{
@@ -63,9 +63,12 @@ void	setup_hooks(t_mlx_data *mlx)
 {
 	mlx_hook(mlx->window, KeyPress, KeyPressMask, handle_key_press, mlx);
 	mlx_hook(mlx->window, KeyRelease, KeyReleaseMask, handle_key_release, mlx);
-	mlx_hook(mlx->window, ButtonPress, ButtonPressMask, handle_mouse_press, mlx);
-	mlx_hook(mlx->window, ButtonRelease, ButtonReleaseMask, handle_mouse_release, mlx);
-	mlx_hook(mlx->window, MotionNotify, PointerMotionMask, handle_mouse_move, mlx);	
+	mlx_hook(mlx->window, ButtonPress, ButtonPressMask, handle_mouse_press,
+		mlx);
+	mlx_hook(mlx->window, ButtonRelease, ButtonReleaseMask,
+		handle_mouse_release, mlx);
+	mlx_hook(mlx->window, MotionNotify, PointerMotionMask, handle_mouse_move,
+		mlx);
 	mlx_hook(mlx->window, DestroyNotify, 0, close_fdf, mlx);
 }
 

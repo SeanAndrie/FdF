@@ -14,17 +14,23 @@
 
 void	fill_image(t_image *img, int width, int height, unsigned int color)
 {
-	size_t 					i;
-	size_t 					bytes;
+	size_t					i;
+	size_t					bytes;
 	volatile unsigned int	*p;
 
 	i = 0;
 	bytes = width * height * (img->bpp / 8);
 	p = (unsigned int *)img->addr;
-	while (i < bytes/sizeof(unsigned int))
+	while (i < bytes / sizeof(unsigned int))
 	{
-		p[i]   = color; p[i+1] = color; p[i+2] = color; p[i+3] = color;
-        p[i+4] = color; p[i+5] = color; p[i+6] = color; p[i+7] = color;
+		p[i] = color;
+		p[i + 1] = color;
+		p[i + 2] = color;
+		p[i + 3] = color;
+		p[i + 4] = color;
+		p[i + 5] = color;
+		p[i + 6] = color;
+		p[i + 7] = color;
 		i += 8;
 	}
 }

@@ -3,42 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: sgadinga <sgadinga@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 01:11:42 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/12 02:01:00 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:58:37 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_point2D project_point(t_point3D point, t_config config)
+t_point2D	project_point(t_point3D point, t_config config)
 {
-    t_point2D  	proj;
-    t_point3D  	trans;
+	t_point2D	proj;
+	t_point3D	trans;
 
 	trans = point;
-	trans.x *= config.scale;
-    trans.y *= config.scale;
-	trans.z *= config.z_scale; 
-    rotate_point(&trans, config.rotations);
-    if (config.projection == PROJ_ISOMETRIC)
-    {
-        proj.x = (int)roundf((trans.x - trans.y) * COS_30 + config.offset.x);
-        proj.y = (int)roundf((trans.x + trans.y) * SIN_30 - trans.z + config.offset.y);
-    }
+	scale_and_rotate(&trans, config);
+	if (config.projection == PROJ_ISOMETRIC)
+	{
+		proj.x = (int)roundf((trans.x - trans.y) * COS_30 + config.offset.x);
+		proj.y = (int)roundf((trans.x + trans.y) * SIN_30 - trans.z
+				+ config.offset.y);
+	}
 	else if (config.projection == PROJ_CAVALIER)
 	{
-		proj.x = (int)roundf((trans.x + (trans.z * NEG_COS_45)) + config.offset.x);
-		proj.y = (int)roundf((trans.y + (trans.z * NEG_SIN_45)) - trans.z + config.offset.y);
+		proj.x = (int)roundf((trans.x + (trans.z * NEG_COS_45))
+				+ config.offset.x);
+		proj.y = (int)roundf((trans.y + (trans.z * NEG_SIN_45)) - trans.z
+				+ config.offset.y);
 	}
-    else
-    {
-        proj.x = (int)roundf(trans.x + config.offset.x);
-        proj.y = (int)roundf(trans.y + config.offset.y);
-    }
-    proj.color = point.color;
-    return proj;
+	else
+	{
+		proj.x = (int)roundf(trans.x + config.offset.x);
+		proj.y = (int)roundf(trans.y + config.offset.y);
+	}
+	proj.color = point.color;
+	return (proj);
 }
 
 t_bounds	get_map_bounds(t_map *map, t_config config)
@@ -73,8 +73,10 @@ void	render_map(t_mlx_data *mlx)
 	t_point2D	offset;
 
 	bounds = get_map_bounds(mlx->map, mlx->config);
-	offset.x = (WIDTH - (bounds.max_x - bounds.min_x)) / 2 - bounds.min_x + mlx->config.offset.x;
-	offset.y = (HEIGHT - (bounds.max_y - bounds.min_y)) / 2 - bounds.min_y + mlx->config.offset.y;
+	offset.x = (WIDTH - (bounds.max_x - bounds.min_x)) / 2 - bounds.min_x
+		+ mlx->config.offset.x;
+	offset.y = (HEIGHT - (bounds.max_y - bounds.min_y)) / 2 - bounds.min_y
+		+ mlx->config.offset.y;
 	y = mlx->map->y_dim;
 	while (y--)
 		draw_horizontal_lines(mlx, offset, y);
