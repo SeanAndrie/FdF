@@ -6,11 +6,23 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 01:54:21 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/09 14:04:49 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:33:20 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	parse_z_coordinate(t_point2D *coord, char **token_x,
+		t_point3D **x_points, int z)
+{
+	if (token_x[1] && is_hex_color(token_x[1]))
+		(*x_points)[coord->x] = (t_point3D){(float)coord->x, (float)coord->y, z,
+			ft_strtol(token_x[1], NULL, 16)};
+	else
+		(*x_points)[coord->x] = (t_point3D){(float)coord->x, (float)coord->y, z,
+			0xFFFFFF};
+	free_tokens(token_x);
+}
 
 int	is_hex_color(const char *token)
 {

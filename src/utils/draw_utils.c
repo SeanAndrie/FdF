@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 23:46:49 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/10 07:13:32 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:28:53 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ void	update_position(int *error, t_point2D *curr, t_line_params params)
 
 void	redraw(t_mlx_data *mlx)
 {
-	ft_memset(mlx->map_image.addr, 0, mlx->map_image.line_len * HEIGHT);
+	ft_bzero(mlx->map_image.addr, mlx->map_image.line_len * HEIGHT);
 	render_map(mlx);
-	mlx_put_image_to_window(mlx->connection, mlx->window, mlx->map_image.image,
-		0, 0);
 	mlx_do_sync(mlx->connection);
 }
 

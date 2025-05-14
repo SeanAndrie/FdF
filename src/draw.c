@@ -12,9 +12,9 @@
 
 #include "fdf.h"
 
-static t_line_params init_line_params(t_point2D start, t_point2D end)
+static t_line_params	init_line_params(t_point2D start, t_point2D end)
 {
-	t_line_params params;
+	t_line_params	params;
 
 	params.delta.x = abs(end.x - start.x);
 	params.delta.y = abs(end.y - start.y);
@@ -23,7 +23,8 @@ static t_line_params init_line_params(t_point2D start, t_point2D end)
 	return (params);
 }
 
-static int	calculate_gradient(t_point2D *curr, t_point2D *start, t_point2D *end)
+static int	calculate_gradient(t_point2D *curr, t_point2D *start,
+		t_point2D *end)
 {
 	t_rgb	color_start;
 	t_rgb	color_curr;
@@ -42,7 +43,7 @@ static int	calculate_gradient(t_point2D *curr, t_point2D *start, t_point2D *end)
 	return (create_trgb(0xFF, color_curr.r, color_curr.g, color_curr.b));
 }
 
-static int draw_line(t_image *img, t_point2D start, t_point2D end)
+static int	draw_line(t_image *img, t_point2D start, t_point2D end)
 {
 	t_point2D		curr;
 	int				error;

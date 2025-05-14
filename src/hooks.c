@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 14:05:24 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/11 06:03:57 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:27:53 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,11 @@ int	handle_key_press(int keycode, t_mlx_data *mlx)
 	else if (keycode == XK_equal || keycode == XK_minus)
 		adjust_scale(keycode, mlx);
 	else if (keycode == XK_r)
-	{
-		mlx->config = init_config();
-		redraw(mlx);
-	}
-    else if (mlx->config.projection == PROJ_ORTHOGRAPHIC && (keycode >= XK_1 && keycode <= XK_3))
-        apply_ortho_variations(keycode, mlx);
-    return (0);
+		reset_config(mlx);
+	else if (mlx->config.projection == PROJ_ORTHOGRAPHIC && (keycode >= XK_1
+			&& keycode <= XK_3))
+		apply_ortho_variations(keycode, mlx);
+	return (0);
 }
 
 int	handle_key_release(int keycode, t_mlx_data *mlx)

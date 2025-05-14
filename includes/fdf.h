@@ -6,7 +6,7 @@
 /*   By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:03:09 by sgadinga          #+#    #+#             */
-/*   Updated: 2025/05/12 02:00:49 by sgadinga         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:27:34 by sgadinga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # define NEG_SIN_45 -0.8509035f
 # define COS_30 0.8660254f
 # define SIN_30 0.5f
+
+# define TEXT_COLOR 0xFFFFFF
+# define LINE_HEIGHT 25
 
 # include <fcntl.h>
 # include <libft.h>
@@ -191,6 +194,9 @@ void					error(char *type, char *message, char *code);
 int						close_fdf(t_mlx_data *mlx);
 t_config				init_config(void);
 
+// Instructions
+void					render_instruct(t_mlx_data *mlx, int line_height);
+
 // Hooks
 int						handle_key_press(int keycode, t_mlx_data *mlx);
 int						handle_key_release(int keycode, t_mlx_data *mlx);
@@ -227,6 +233,10 @@ t_point2D				project_point(t_point3D point, t_config config);
 int						render_mlx(t_mlx_data *mlx, const char *filename);
 t_bounds				get_map_bounds(t_map *map, t_config config);
 
+// Rendering Utilities
+void					scale_and_rotate(t_point3D *point, t_config config);
+void					reset_config(t_mlx_data *mlx);
+
 // Map Parser
 t_map					*create_map(const char *filename);
 
@@ -235,6 +245,7 @@ void					free_tokens(char **tokens);
 int						is_hex_color(const char *token);
 void					cleanup_grid(t_point3D **grid, int n_alloc);
 int						get_next_trimmed(char **trimmed, int fd, char *charset);
+void					parse_z_coordinate(t_point2D *coord, char **token_x, t_point3D **x_points, int z);
 
 // Rotations
 void    				rotate_point(t_point3D *point, t_point3D angles);
