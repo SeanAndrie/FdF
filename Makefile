@@ -6,14 +6,14 @@
 #    By: sgadinga <sgadinga@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/29 16:02:32 by sgadinga          #+#    #+#              #
-#    Updated: 2025/05/14 13:24:13 by sgadinga         ###   ########.fr        #
+#    Updated: 2025/05/26 00:05:59 by sgadinga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 CC = cc
 MLX_FLAGS = -lXext -lX11 -lm -lz
-CFLAGS = -Wall -Werror -Wextra -g -Ilibft/includes -Iincludes -Iminilibx-linux -O3
+CFLAGS = -std=gnu11 -Wall -Werror -Wextra -g -Ilibft/includes -Iincludes -Iminilibx-linux -O3
 SANITIZE_FLAGS = -fsanitize=address
 
 SRC_DIR = src
